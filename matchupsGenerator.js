@@ -1,7 +1,7 @@
 const axios = require("axios");
 const seedrandom = require("./seedrandom");
 
-const maxRounds = 5000;
+const maxRounds = 100000;
 
 if (!process.argv[2]) {
   console.error("Missing cycle argument.");
