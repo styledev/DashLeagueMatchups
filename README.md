@@ -14,4 +14,5 @@ To run it you need node.js and the axios package.
 ```bash
 npm i axios
 node matchupsGenerator.js
+node matchupsGenerator.js 1
 ```
