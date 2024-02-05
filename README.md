@@ -13,5 +13,9 @@ To run it you need node.js and the axios package.
 
 ```bash
 npm i axios
-node matchupsGenerator.js
+node googleapi.js
+node googlesheet.js 1u7IhCtWhfBJbCesWs0-e9zpGQFbdEB_lOKCkp1iHCzg <season> <cycle> <opponents>
+node googlesheet.js 1u7IhCtWhfBJbCesWs0-e9zpGQFbdEB_lOKCkp1iHCzg 1 1 1
+node dashleague.js <cycle>
+node dashleague.js 1>
 ```
