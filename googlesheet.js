@@ -64,30 +64,34 @@ async function listData(auth) {
   
   rows.forEach((row, index) => {
     const team = row[0];
+    
     teams.push(team);
     
-    const matches = [];
+    let matches = [];
     
     row.forEach((r, k) => {
       if ( k == 0 ) return;
-      matches.push(r);
+      
+      r = r.split(',');
+      
+      matches = [...matches, ...r];
     })
     
-    matchups[team] = matches[0].split(',');
+    matchups[team] = matches;
   });
 }
 
 async function matchupData() {
   const data = generate(teams, matchups, args.opponents).default,
-        rows = Object.entries(data);
+        rows = {};
         
-  if ( rows[0][1].length > 1 ) {
-    rows.forEach((row) => {
-      data[row[0]] = [row[1].join(', ')];
-    })
-  }
+  teams.forEach((team) => {
+    rows[team] = [data[team].join(', ')];
+  })
   
-  return Object.values(data);
+  console.log(rows);
+  
+  return Object.values(rows);
 }
 
 async function updateData( data ) {
@@ -106,7 +110,7 @@ async function updateData( data ) {
 }
 
 authorize().then(listData).then(matchupData).then(updateData).catch(console.error);
-// authorize().then(listData).then(matchupData).catch(console.error);
+// authorize().then(listData).then(matchupData).catch(console.error); // for testing purposes
 
 /*
   Need to build matchups like https://dashleague.games/wp-json/api/v1/public/data?data=matchups&season=6&cycle=2
