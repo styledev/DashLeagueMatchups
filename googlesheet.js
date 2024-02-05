@@ -1,8 +1,6 @@
 // https://developers.google.com/sheets/api/quickstart/nodejs
 
-const maxRounds  = 500000,
-      generate   = require("./generate"),
-      seedrandom = require("./seedrandom"),
+const generate   = require("./generate"),
       fs         = require('fs').promises,
       path       = require('path'),
       {google}   = require('googleapis'),
@@ -10,7 +8,7 @@ const maxRounds  = 500000,
       
 let args     = { 'id': 2, 'season': 3, 'cycle': 4, 'opponents': 5 },
     sheets   = null,
-    matchups = {'data':[]},
+    matchups = {},
     teams    = [];
     
 for ( const arg of Object.entries(args) ) {
@@ -75,7 +73,7 @@ async function listData(auth) {
       matches.push(r);
     })
     
-    matchups.data[team] = matches;
+    matchups[team] = matches[0].split(',');
   });
 }
 
@@ -88,8 +86,6 @@ async function matchupData() {
       data[row[0]] = [row[1].join(', ')];
     })
   }
-  
-  console.log(Object.values(data));
   
   return Object.values(data);
 }
@@ -109,8 +105,8 @@ async function updateData( data ) {
   console.log(JSON.stringify(res.data, null, 2));
 }
 
-// authorize().then(listData).then(matchupData).then(updateData).catch(console.error);
-authorize().then(listData).then(matchupData).catch(console.error);
+authorize().then(listData).then(matchupData).then(updateData).catch(console.error);
+// authorize().then(listData).then(matchupData).catch(console.error);
 
 /*
   Need to build matchups like https://dashleague.games/wp-json/api/v1/public/data?data=matchups&season=6&cycle=2

@@ -31,8 +31,7 @@ function genMatchups(matchups, tiers, tier, maxRematches, opponents) {
   const newMatchups = {}, rematchesAdded = [];
   
   /* Need to figure out why previous matchups is not being taken into account. */
-    console.log(matchups);
-  
+    // console.log(matchups);
   
   const findMatchups = (team) => Object.values(newMatchups).filter((matches) => matches.includes(team));
   
@@ -41,7 +40,7 @@ function genMatchups(matchups, tiers, tier, maxRematches, opponents) {
   );
   
   for ( const team of shuffle(tiers[tier]) ) {
-    if (!newMatchups[team]) newMatchups[team] = [];
+    if ( !newMatchups[team] ) newMatchups[team] = [];
     
     if ( newMatchups[team].length === opponents ) continue;
     
@@ -118,7 +117,8 @@ function tiers( tiers, matchups, opponents ) {
       
       // creating matches with the allowed number of rematches failed, try again
       // with 1 more rematch allowed
-      maxRematches += 1;
+      if ( maxRematches < 6 ) maxRematches += 1;
+      else done = true;
     }
   }
   
